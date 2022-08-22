@@ -20,7 +20,6 @@ public class MysticLogger
 	public static void SetLoggingFunction(CustomLogger _logger)
 	{
 		logger = _logger;
-        SetLoggingFunction((string text) => Console.WriteLine(text));
 	}
     
     /** <summary>   
@@ -61,16 +60,44 @@ public class MysticLogger
         eLogger = _logger;
     }
 
+    // TODO: rework so there is one log function which uses params to indicate the log type.
 	public static void Log(object message)
 	{
-        string messageString = object.ToString();
-		logger(messageString);
+        try {
+            string messageString = object.ToString();
+        }
+        catch(Exception ex)
+        {
+            throw new Exception("Unable to convert to string.", ex);
+        }
+
+        try {
+		    logger(messageString);
+        }
+        catch(Exception ex)
+        {
+            throw new NullReferenceException("No function has been set for MysticLogger logger", ex);
+        }
 	}
 
+    // TODO: Fallback
 	public static void LogWarning(object message)
 	{
-        string messageString = object.ToString();
-		wLogger(messageString);
+        try {
+            string messageString = object.ToString();
+        }
+        catch(Exception ex)
+        {
+            throw new Exception("Unable to convert to string.", ex);
+        }
+
+		try {
+		    wLogger(messageString);
+        }
+        catch(Exception ex)
+        {
+            throw new NullReferenceException("No function has been set for MysticLogger logger", ex);
+        }
 	}
 
 	public static void LogException(Exception exception)

@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class CustomPacketInitializer
 {
@@ -17,7 +16,7 @@ public class CustomPacketInitializer
 		UserStructsInverse = temp.Item2;
 	}
 
-	// good heavens.... At least it's static lol
+	// good heavens.... At least it's static tho
 	public static Tuple<Dictionary<ushort, Type>, Dictionary<Type, ushort>> AddPacketTypes()
 	{
 		Assembly assembly = Assembly.GetExecutingAssembly();

@@ -1,18 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
-using System.Reflection;
 using System.Linq;
-using System.Text;
+using System.Collections.Generic;
 
 namespace MysticNetworking
 {
 	public class Packet
 	{
+		int nativeSize = IntPtr.Size;
 		public Dictionary<int, Type> DataTypes = new Dictionary<int, Type>();
-
-		//foreach (int key in Enum.GetValues(typeof(NetDataTypes)))
 
 		List<byte> buffer = new List<byte>();
 		byte[] data;
@@ -47,39 +42,137 @@ namespace MysticNetworking
 			position += _value.Length;
 		}
 
-		public ushort PeekUShort(int readPosition = 0)
+		public Boolean ReadBool()
 		{
-			return BitConverter.ToUInt16(data, readPosition);
+			bool readData = BitConverter.ToBoolean(data, position);
+			position += 1;
+			return readData;
 		}
 
-		public ushort ReadUShort()
+		public Byte ReadByte()
+		{
+			byte readData = data[position];
+			position += 1;
+			return readData;
+		}
+		
+		public Char ReadChar()
+		{
+			char readData = BitConverter.ToChar(data, position);
+			position += 2;
+			return readData;
+		}
+
+		public Int16 ReadShort()
+		{
+			short readData = BitConverter.ToInt16(data, position);
+			position += 2;
+			return readData;
+		}
+		
+		public UInt16 ReadUShort()
 		{
 			ushort readData = BitConverter.ToUInt16(data, position);
 			position += 2;
 			return readData;
 		}
 
-		public int ReadInt()
+		public Int32 ReadInt()
 		{
 			int readData = BitConverter.ToInt32(data, position);
 			position += 4;
 			return readData;
 		}
+		
+		public UInt32 ReadUInt()
+		{
+			uint readData = BitConverter.ToUInt32(data, position);
+			position += 4;
+			return readData;
+		}
+		
+		public Int64 ReadLong()
+		{
+			long readData = BitConverter.ToInt64(data, position);
+			position += 8;
+			return readData;
+		}
+		
+		public UInt64 ReadULong()
+		{
+			ulong readData = BitConverter.ToUInt64(data, position);
+			position += 8;
+			return readData;
+		}
 
-		public string ReadString()
+		public Single ReadFloat()
+		{
+			float readData = BitConverter.ToSingle(data, position);
+			position += 4;
+			return readData;
+		}
+		
+		public Double ReadDouble()
+		{
+			double readData = BitConverter.ToDouble(data, position);
+			position += 8;
+			return readData;
+		}
+
+		public String ReadString()
 		{
 			int length = ReadInt();
-			string readData = Encoding.ASCII.GetString(data, position, length);
+			string readData = System.Text.Encoding.ASCII.GetString(data, position, length);
 			position += length;
 			return readData;
 		}
 
+		public void Write(Boolean _data)
+		{
+			Write(BitConverter.GetBytes(_data));
+		}
+		
+		public void Write(Byte _data)
+		{
+			Write(BitConverter.GetBytes(_data));
+		}
+		
+		public void Write(short _data)
+		{
+			Write(BitConverter.GetBytes(_data));
+		}
+		
 		public void Write(ushort _data)
 		{
 			Write(BitConverter.GetBytes(_data));
 		}
 
 		public void Write(Int32 _data)
+		{
+			Write(BitConverter.GetBytes(_data));
+		}
+		
+		public void Write(UInt32 _data)
+		{
+			Write(BitConverter.GetBytes(_data));
+		}
+		
+		public void Write(Int64 _data)
+		{
+			Write(BitConverter.GetBytes(_data));
+		}
+		
+		public void Write(UInt64 _data)
+		{
+			Write(BitConverter.GetBytes(_data));
+		}
+		
+		public void Write(Single _data)
+		{
+			Write(BitConverter.GetBytes(_data));
+		}
+
+		public void Write(Double _data)
 		{
 			Write(BitConverter.GetBytes(_data));
 		}
@@ -91,7 +184,7 @@ namespace MysticNetworking
 		}
 	}
 
-	//TODO: get rid of this or keep it, idk maybe it'll be faster than dictionary tryget
+	//TODO: get rid of this of find out if it's faster than dictionary tryget
 	public enum NetDataTypes
 	{
 		Network_ushort = 1,

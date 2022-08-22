@@ -1,12 +1,12 @@
 using System;
 using System.Reflection;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace MysticNetworking
 {
 	public class PacketIO
 	{
+        // Store user defined methods
 		private Dictionary<Type, Action<object>> OnReceivedMethods = new Dictionary<Type, Action<object>>();
 
 		// actual black magic
@@ -26,19 +26,14 @@ namespace MysticNetworking
 			MysticLogger.Log("Initialized PacketDataTypes. List count: " + PacketDataTypes.PacketDataTypesDictionary.Count);
 		}
 
+        // invoke user method based on packet type
 		public void InvokeMethodForPacketType(ICustomPacket packetData)
 		{
 			// validate incoming data
 			//TODO: check if byte count is greater than one
-			//Packet packet = new Packet(buffer);
-
-			//ushort packetId = packet.ReadUShort();
-
-			//CustomPacketInitializer.UserStructs.TryGetValue(packetId, out Type type);
 
 			if (OnReceivedMethods.TryGetValue(packetData.GetType(), out Action<object> onReceivedMethod))
 			{
-				//object data = ReadPacket(packet);
 				onReceivedMethod(packetData);
 			}
 			else
@@ -48,7 +43,7 @@ namespace MysticNetworking
 		public static object ReadPacket(Packet packet, int startPosition = 0)
 		{
 			packet.setPosition(startPosition);
-			ushort id = ushort.MaxValue;
+			ushort id;
 
 			try
 			{
@@ -83,22 +78,22 @@ namespace MysticNetworking
 							catch (Exception e)
 							{
 								MysticLogger.Log("Packet read method failed.");
-								MysticLogger.Log(e);
+								MysticLogger.LogException(e);
 							}
 
 							dataType.SetValue(packetTypeObject, value);
 						}
 						else
-							MysticLogger.Log(new Exception("Data type does not inherit ICustomPacket. Data type: " + networkDataType));
+							MysticLogger.LogException(new Exception("Data type does not inherit ICustomPacket. Data type: " + networkDataType));
 					}
 					else
-						MysticLogger.Log(new Exception("Unable to read a data type in the packet. Matching network data type not found."));
+						MysticLogger.LogException(new Exception("Unable to read a data type in the packet. Matching network data type not found."));
 				}
 				return Convert.ChangeType(packetTypeObject, packetType);
 			}
 			else
 			{
-				MysticLogger.Log(new Exception("Packet struct does not match a supported type."));
+				MysticLogger.LogException(new Exception("Packet struct does not match a supported type."));
 				return null;
 			}
 		}
@@ -125,17 +120,17 @@ namespace MysticNetworking
 						}
 						catch (Exception e)
 						{
-							MysticLogger.Log(e);
+							MysticLogger.LogException(e);
 						}
 					}
 					else
-						MysticLogger.Log(new Exception("Data type does not inherit ICustomPacket. Data type: " + networkDataType));
+						MysticLogger.LogException(new Exception("Data type does not inherit ICustomPacket. Data type: " + networkDataType));
 				}
 				return packet;
 			}
 			else
 			{
-				MysticLogger.Log(new Exception("Packet type not found: " + packetType));
+				MysticLogger.LogException(new Exception("Packet type not found: " + packetType));
 				// return null packet if unsuccessful
 				packet = null;
 				return packet;

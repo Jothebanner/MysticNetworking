@@ -1,5 +1,6 @@
-using MysticNetworking;
 using System;
+using MysticNetworking;
+
 
 public interface ICustomPacket
 {

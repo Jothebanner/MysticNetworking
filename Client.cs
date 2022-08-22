@@ -2,7 +2,6 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace MysticNetworking
 {
@@ -46,7 +45,7 @@ namespace MysticNetworking
 			} 
 			catch (Exception e)
 			{
-				MysticLogger.Log(e);
+				MysticLogger.LogException(e);
 			}
 
 		}
@@ -95,9 +94,9 @@ namespace MysticNetworking
 			}
 			catch (Exception e)
 			{
-				MysticLogger.Log(e);
+				MysticLogger.LogException(e);
 				if (e.GetType() == typeof(SocketException))
-					MysticLogger.Log(new Exception(((SocketException)e).SocketErrorCode.ToString()));
+					MysticLogger.LogException(new Exception(((SocketException)e).SocketErrorCode.ToString()));
 				Stop();
 				return;
 			}
@@ -131,7 +130,7 @@ namespace MysticNetworking
 			}
 			catch (Exception e)
 			{
-				MysticLogger.Log(e);
+				MysticLogger.LogException(e);
 			}
 		}
 
@@ -153,7 +152,7 @@ namespace MysticNetworking
 			}
 			catch (ObjectDisposedException e)
 			{
-				Debug.Log("Aborting begin read on client: " + e);
+				MysticLogger.Log("NetworkStream is closed. Aborting BeginRead/TcpListener on client: " + e);
 			}
 		}
 
@@ -185,7 +184,7 @@ namespace MysticNetworking
 			}
 			catch (Exception e)
 			{
-				MysticLogger.Log(e);
+				MysticLogger.LogException(e);
 			}
 		}
 
@@ -205,7 +204,7 @@ namespace MysticNetworking
 			}
 			catch(Exception e)
 			{
-				MysticLogger.Log(e);
+				MysticLogger.LogException(e);
 			}
 		}
 
@@ -222,7 +221,7 @@ namespace MysticNetworking
 			}
 			catch(Exception e)
 			{
-				MysticLogger.Log(e);
+				MysticLogger.LogException(e);
 			}
 		}
 
@@ -245,7 +244,7 @@ namespace MysticNetworking
 			}
 			catch (Exception e)
 			{
-				MysticLogger.Log(e);
+				MysticLogger.LogException(e);
 			}
 		}
 	}

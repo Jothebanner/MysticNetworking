@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Net.Sockets;
-using System.Net;
 using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Collections.Generic;
 
 namespace MysticNetworking
 {
@@ -87,7 +85,7 @@ namespace MysticNetworking
 			}
 			catch (Exception e)
 			{
-				MysticLogger.Log(e);
+				MysticLogger.LogException(e);
 			}
 		}
 
@@ -125,7 +123,7 @@ namespace MysticNetworking
 			}
 			catch (ObjectDisposedException e)
 			{
-				Debug.Log("Aborting accept socket/thread thingy: " + e);
+				MysticLogger.Log("Aborting accept socket/thread thingy: " + e);
 			}
 		}
 
@@ -140,7 +138,7 @@ namespace MysticNetworking
 			}
 			catch (Exception e)
 			{
-				MysticLogger.Log(e);
+				MysticLogger.LogException(e);
 			}
 		}
 
@@ -177,7 +175,7 @@ namespace MysticNetworking
 						}
 						else
 						{
-							MysticLogger.Log(new Exception("Error parsing UDP ipaddress"));
+							MysticLogger.LogException(new Exception("Error parsing UDP ipaddress"));
 						}
 						// restart listener
 						((Connection)result.AsyncState).stream.BeginRead(((Connection)result.AsyncState).tcpBuffer, 0, ((Connection)result.AsyncState).tcpBuffer.Length, new AsyncCallback(OnTCPReceived), ((Connection)result.AsyncState));
@@ -234,7 +232,7 @@ namespace MysticNetworking
 			}
 			catch (Exception e)
 			{
-				MysticLogger.Log(e);
+				MysticLogger.LogException(e);
 			}
 		}
 
@@ -246,9 +244,9 @@ namespace MysticNetworking
 				if (buffer.Length < Server.dataBufferSize)
 					udpSocket.BeginSendTo(buffer, 0, buffer.Length, SocketFlags.None, connection.udpEndPoint, new AsyncCallback(UDPSendCallback), udpSocket);
 				else
-					MysticLogger.Log(new Exception("Packet length is longer than the set buffer. Buffer length: " + Server.dataBufferSize));
+					MysticLogger.LogException(new Exception("Packet length is longer than the set buffer. Buffer length: " + Server.dataBufferSize));
 			else
-				MysticLogger.Log(new Exception("Unable to send packet because the UDP endpoint for the connection not set."));
+				MysticLogger.LogException(new Exception("Unable to send packet because the UDP endpoint for the connection not set."));
 		}
 
 		public void SendUDPToAll(Packet packet)
@@ -269,13 +267,13 @@ namespace MysticNetworking
 					}
 					catch (Exception e)
 					{
-						MysticLogger.Log(e);
+						MysticLogger.LogException(e);
 					}
 				}
 			}
 			else
 			{
-				MysticLogger.Log(new Exception("UDP message to all not sent because the connections dictionary is empty"));
+				MysticLogger.LogException(new Exception("UDP message to all not sent because the connections dictionary is empty"));
 			}
 		}
 
@@ -311,7 +309,7 @@ namespace MysticNetworking
 					}
 					catch (Exception e)
 					{
-						MysticLogger.Log(e);
+						MysticLogger.LogException(e);
 					}
 				}
 			}
