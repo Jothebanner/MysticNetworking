@@ -80,7 +80,7 @@ The CustomPacketInitializer gathers all of the structs that impliment ICustomPac
 
 The RandomIdGenerator comes in handy when putting together a lobby for some networked interaction.
 
-Finally the MysticLogger is a homebrew logger that can be easily hooked up to the output of your choice via `MysticLogger.SetAllLoggingFunctions(`your function that logs stuff`)`
+Finally the MysticLogger is a homebrew logger that can be easily hooked up to the output of your choice via `MysticLogger.SetAllLoggingFunctions(your function that logs stuff)`
 
 You can set different logging functions for basic logs, warning logs and exceptions.
 
