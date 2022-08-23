@@ -61,8 +61,8 @@ public class DoubleVector3 : PacketDataType
 	public new static void Read(Packet packet)
 	{
 		DoubleVector3 doubleVector3 = new DoubleVector3();
-		firstVector3 = Mystic_Vector3.Read(Packet packet);
-		secondVector3 = Mystic_Vector3.Read(Packet packet);
+		firstVector3 = Mystic_Vector3.Read(packet);
+		secondVector3 = Mystic_Vector3.Read(packet);
     		return doubleVector3;
 		
 	}
