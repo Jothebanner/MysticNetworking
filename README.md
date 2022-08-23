@@ -1,4 +1,4 @@
-# MythicNetworking
+# MysticNetworking
 Dynamic, code-validation focused C# TCP/UDP networking solution.
 
 The main idea for this solution is to enforce coding standards and provide data for intellisense while giving you low level control over the packets that you're working with. It's important to note that this solution can be much slower per data type per packet than a less validated solution.
