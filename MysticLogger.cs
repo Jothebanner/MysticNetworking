@@ -2,13 +2,12 @@ using System;
 
 public class MysticLogger
 {
-	private delegate void CustomLogger(string log);
-    private delegate void CustomWarningLogger(string log);
-	private delegate void CustomExceptionLogger(Exception exception);
+	public delegate void CustomLogger(object log);
+	public delegate void CustomExceptionLogger(Exception exception);
 
-	static CustomLogger logger;
-	static CustomWarningLogger wLogger;
-	static CustomExceptionLogger eLogger;
+	public static CustomLogger logger;
+	public static CustomLogger wLogger;
+	public static CustomExceptionLogger eLogger;
 
     /** <summary>   
          Custom all-purpose logger.
@@ -29,7 +28,7 @@ public class MysticLogger
          <c>MysticLogger.SetLoggingFunction((string text) => Console.WriteLine(text));</c>
      </example>
      </summary> */
-	public static void SetWarningLoggingFunction(CustomWarningLogger _logger)
+	public static void SetWarningLoggingFunction(CustomLogger _logger)
 	{
 		wLogger = _logger;
 	}
@@ -46,58 +45,48 @@ public class MysticLogger
 		eLogger = _logger;
 	}
 
-    /** <summary>   
-         Set this function for all loggers.
-     <param name="_logger"/> Any function which takes a string as a parameter.
-     <example>
-         <c>MysticLogger.SetAllLoggingFunctions((string text) => Console.WriteLine(text));</c>
-     </example>
-     </summary> */
-    public static void SetAllLoggingFunctions(CustomLogger _logger)
-    {
-        logger = _logger;
-        wLogger = _logger;
-        eLogger = _logger;
-    }
-
     // TODO: rework so there is one log function which uses params to indicate the log type.
 	public static void Log(object message)
 	{
-        try {
-            string messageString = object.ToString();
-        }
-        catch(Exception ex)
-        {
-            throw new Exception("Unable to convert to string.", ex);
-        }
+		try
+		{
+			string messageString = message.ToString();
 
-        try {
-		    logger(messageString);
-        }
-        catch(Exception ex)
-        {
-            throw new NullReferenceException("No function has been set for MysticLogger logger", ex);
-        }
+			try
+			{
+				logger(messageString);
+			}
+			catch (Exception ex)
+			{
+				throw new NullReferenceException("No function has been set for MysticLogger logger", ex);
+			}
+		}
+		catch (Exception ex)
+		{
+			throw new Exception("Unable to convert to string.", ex);
+		}
 	}
 
     // TODO: Fallback
 	public static void LogWarning(object message)
 	{
-        try {
-            string messageString = object.ToString();
-        }
-        catch(Exception ex)
-        {
-            throw new Exception("Unable to convert to string.", ex);
-        }
+		try
+		{
+			string messageString = message.ToString();
 
-		try {
-		    wLogger(messageString);
-        }
-        catch(Exception ex)
-        {
-            throw new NullReferenceException("No function has been set for MysticLogger logger", ex);
-        }
+			try
+			{
+				wLogger(messageString);
+			}
+			catch (Exception ex)
+			{
+				throw new NullReferenceException("No function has been set for MysticLogger logger", ex);
+			}
+		}
+		catch (Exception ex)
+		{
+			throw new Exception("Unable to convert to string.", ex);
+		}
 	}
 
 	public static void LogException(Exception exception)
@@ -106,11 +95,11 @@ public class MysticLogger
         // unfortunatly we cannot log this so we gotta throw an exeption. Perhaps this is dumb idk
 
         try{
-            // display as an exeption if possible
-            if (eLogger == CustomExceptionLogger)
+            // display as an exeption if any logger is present. Peeps gotta know if stuff is borked
+            if (eLogger != null)
                 eLogger(exception);
             // fallbacks
-            else if (wLogger == CustomWarningLogger)
+            else if (wLogger != null)
                 wLogger(exception);
             else
                 logger(exception);
