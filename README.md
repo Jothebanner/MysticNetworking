@@ -1,7 +1,7 @@
 # MysticNetworking
 Dynamic, code-validation focused C# TCP/UDP networking solution.
 
-The main idea for this solution is to enforce coding standards and provide data for intellisense while giving you low level control over the packets that you're working with. It's important to note that this solution can be much slower per data type per packet than a less validated solution.
+The main idea for this solution is to enforce coding standards and provide data for intellisense while giving you low level control over the packets that you're working with. It's important to note that this solution can be much slower per data type per packet than solution that validates less.
 
 There are two main parts to this framework. The Server, Client, Connection, and Packet classes and the PacketIO suite.
 The Server and Client are the bread and butter of the project; with the connection class to ease user tracking, they can be used as any generic networking solution they connect, disconnect, send packets and listen for any tcp or udp incoming messages and stack them in a buffer. You can then use the Packet class to read and write the bits of the packets, tho this process can be tedious and error-prone without the grace of intellsense to save you from the fallacies of the human mind...
@@ -61,8 +61,8 @@ public class DoubleVector3 : PacketDataType
 	public new static void Read(Packet packet)
 	{
 		DoubleVector3 doubleVector3 = new DoubleVector3();
-		firstVector3 = Mystic_Vector3.Read(Packet packet);
-		secondVector3 = Mystic_Vector3.Read(Packet packet);
+		firstVector3 = Mystic_Vector3.Read(packet);
+		secondVector3 = Mystic_Vector3.Read(packet);
     		return doubleVector3;
 		
 	}
@@ -80,7 +80,7 @@ The CustomPacketInitializer gathers all of the structs that impliment ICustomPac
 
 The RandomIdGenerator comes in handy when putting together a lobby for some networked interaction.
 
-Finally the MysticLogger is a homebrew logger that can be easily hooked up to the output of your choice via `MysticLogger.SetAllLoggingFunctions(`your function that logs stuff`)`
+Finally the MysticLogger is a homebrew logger that can be easily hooked up to the output of your choice via `MysticLogger.SetAllLoggingFunctions(function_that_logs_stuff)`
 
 You can set different logging functions for basic logs, warning logs and exceptions.
 
