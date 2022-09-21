@@ -26,7 +26,7 @@ public struct MessagePacket : ICustomPacket
 }
 ```
 
-Out of the box only the C# build-in types, such as float, string, and byte are supported. Fortunately you can add a layer of abstraction to those basic types with the PacketDataTypes class. The PacketDataTypes class is the spicy mayo in this oddly devised sandwich. When the suite runs, PacketDataTypes uses reflection to gather everything that extends PacketDataType. I've already added reading and writing for the C# build-in types, but you can create a packet of any type if you tell PacketIO how the data type is to be written and read. Heres and example of a vector3:
+Out of the box only the C# build-in types, such as float, string, and byte are supported. Fortunately you can add a layer of abstraction to those basic types with the PacketDataTypes class. The PacketDataTypes class is the spicy mayo in this oddly devised sandwich. When the suite runs, PacketDataTypes uses reflection to gather everything that extends PacketDataType. I've already added reading and writing for the C# build-in types, but you can create a packet of any type if you tell PacketIO how the data type is to be written and read. Here's an example of a vector3:
 
 ```
 public class Mystic_Vector3 : PacketDataType
