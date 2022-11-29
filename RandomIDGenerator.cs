@@ -11,7 +11,7 @@ public static class RandomIdGenerator
 
 		for (int i = 0; i < idLength; i++)
 		{
-			// based off of guid to get a random number // might still be deterministic tho idk
+			// based off of guid to get a random number
 			var random = new ThreadLocal<System.Random>(() => new System.Random(Guid.NewGuid().GetHashCode()));
 			id += availableChars[random.Value.Next(0, availableChars.Length)];
 		}
