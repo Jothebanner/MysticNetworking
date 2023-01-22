@@ -184,7 +184,7 @@ namespace MysticNetworking
 		}
 	}
 
-	//TODO: get rid of this of find out if it's faster than dictionary tryget
+	//TODO: get rid of this or find out if it's faster than dictionary tryget
 	public enum NetDataTypes
 	{
 		Network_ushort = 1,
