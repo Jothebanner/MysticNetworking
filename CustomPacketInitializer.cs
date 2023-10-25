@@ -10,7 +10,7 @@ public class CustomPacketInitializer
 
 	static CustomPacketInitializer()
 	{
-		// idk, I'm probably going to hell for this
+		// oof
 		var temp = AddPacketTypes();
 		UserStructs = temp.Item1;
 		UserStructsInverse = temp.Item2;
